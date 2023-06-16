@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="misEstilos.css">
+    <title>Juego de preguntas</title>
+</head>
+<body onload="comenzarCuentaRegresiva()"> 
+    <h2> 
+        Responde a las siguientes preguntas lo más rápido que puedas <span id="cuentaRegresiva"> </span>
+    </h2>
+    <p>
+        ¿Quién pintó “la última cena”?
+    </p>
+    <input type="text" id="answerOne">
+    <p>
+        ¿Cómo se denomina el resultado de la multiplicación?
+    </p>
+    <input type="text" id="answerTwo">
+    <p>
+        ¿Cuál es el país más grande del mundo?
+    </p>
+    <input type="text" id="answerThree">
+    <p>
+        Si 50 es el 100%, ¿cuánto es el 90%?
+    </p>
+    <input type="text" id="answerFour">
+    <p>
+        ¿Cómo se llama el himno nacional de Francia?
+    </p>
+    <input type="text" id="answerFive">
+
+    <br><br>
+
+    <button onclick="finalizado()">Terminé</button>
+
+    <br><br>
+
+    <button onclick="volverAInterntar()">Volver a Internar</button>
+
+    <br><br>
+
+    <audio id="audioFinal">
+        <source src="gameover.mp3" type="audio/mpeg">
+        Sonido no habilitado
+    </audio>
+
+    <script>
+        let tiempoTerminado;
+        let intervaloDeTiempo;
+
+        function comenzarCuentaRegresiva(){ // Cuando el juego comience, inicie funcion la cuenta regresiva
+            tiempoTerminado = setTimeout(tiempoCumplido, 30000); // tiempo terminado, necesita una funcion que debe iniciarse cuando se termine el tiempo, y se establece un tiempo
+            intervaloDeTiempo = setInterval(ticTac,1000); // intervalo de tiempo, necesita una funcion que se va activar cada intervalo de tiempo y cada cuanto va a aparecer la funcion 
+
+            document.getElementById("cuentaRegresiva").textContent = 30; // llama al elemento span cuanta regresiva y que tenga un texto contenido que va empezar con 30 y vaya descontando cada segundo 
+        }
+
+        function ticTac(){ //manejara el tiempo
+            let tiempo = document.getElementById("cuentaRegresiva").textContent; //toma el contenido de la cuenta regresiva
+
+            document.getElementById("cuentaRegresiva").textContent = tiempo - 1; //se llama al mismo id para ir descontando 1 segundo
+        }
+
+        function tiempoCumplido(){ //lo que debe suceder despues que se cumplan los 30 segundos
+            clearInterval(intervaloDeTiempo); //permite reiniciar el tiempo
+            document.getElementById("cuentaRegresiva").textContent = 0; // el elemento tenga un valor a 0 porque se ha temrinado el tiempo
+            document.getElementById("audioFinal").play(); //suena el audio llamando al metodo play
+            alert ("Game Over: Se acabó el tiempo, intentalo nuevamente"); // Aparecerá un mensaje de alerta
+        }
+
+        function finalizado(){ 
+            clearTimeout(tiempoTerminado); //llama a una función del objeto date, que limpia el tiempo terminado
+            clearInterval(intervaloDeTiempo); // reinicia el intervalo de tiempo
+
+            let fecha = new Date(); //almacena la fecha una vez se haya terminado
+            let answerOne = document.getElementById("answerOne").value; //captura el valor de la respuesta de las preguntas en una variable
+            let answerTwo = document.getElementById("answerTwo").value; //captura el valor de la respuesta de las preguntas en una variable
+            let answerThree= document.getElementById("answerThree").value; //captura el valor de la respuestade las preguntas en una variable
+            let answerFour = document.getElementById("answerFour").value; //captura el valor de la respuesta de las preguntas en una variable
+            let answerFive = document.getElementById("answerFive").value; //captura el valor de la respuesta de las preguntas en una variable
+
+            let mensaje = fecha.toLocaleDateString("es-Es") + "\n" + 
+                            "1. " + answerOne + "\n" +
+                            "2. " + answerTwo + "\n" +
+                            "3. " + answerThree + "\n" +
+                            "4. " + answerFour + "\n" +
+                            "5. " + answerFive
+                            //construye el mensaje
+            alert(mensaje); //muestra el mensaje en un alert
+        }
+
+        function volverAInterntar(){
+            location.reload(); //vuelve a empezar
+        }
+
+
+
+    </script>
+</body>
+</html>
